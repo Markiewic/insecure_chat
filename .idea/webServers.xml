@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ed038680-686a-4abf-abfb-7c31030c0678" name="apache" url="http://localhost.example.com">
+        <fileTransfer mountedRoot="C:\Users\akhod\debian-root" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

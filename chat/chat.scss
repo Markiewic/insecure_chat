@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-family: "Verdana", sans-serif;
+  font-size: 13px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+
+  width: 100vw;
+  height: 100vh;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding: 8px;
+    border-bottom: 1px solid black;
+  }
+
+  .chat {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+
+    .messages-box {
+      flex: auto;
+      overflow-y: auto;
+
+      height: 0;
+    }
+  }
+
+}
+
+.actions {
+  a:not(:last-child) {
+    margin-right: 8px;
+  }
+}

@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  font-family: "Verdana", sans-serif;
+  font-size: 13px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+.box .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid black;
+}
+.box .chat {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+}
+.box .chat .messages-box {
+  flex: auto;
+  overflow-y: auto;
+  height: 0;
+}
+
+.actions a:not(:last-child) {
+  margin-right: 8px;
+}
+
+/*# sourceMappingURL=chat.css.map */
