@@ -1,3 +1,37 @@
+<?php
+
+include '../core/database.php';
+include '../core/authenticate.php';
+
+if (!$user_id) {
+    http_response_code(401);
+    header('Location: /login/');
+    return;
+}
+
+$query = $connection->query("
+        select message.*, user.name name
+            from contents.messages message
+            join authentication.users user on user.id = message.sender;
+    ");
+
+$messages = array();
+while ($messageScheme = $query->fetch_object()) {
+    $lastTime = $messageScheme->created_on;
+    $message = array(
+        'name' => $messageScheme->name,
+        'body' => $messageScheme->body,
+        'createdOn' => (int)$messageScheme->created_on,
+        'attachedImage' => $messageScheme->attached_image,
+    );
+    $messages[] = $message;
+}
+
+
+setlocale(LC_TIME, "ru_RU");
+
+?>
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -5,41 +39,51 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Чат</title>
     <link rel="stylesheet" href="./chat.css">
     <script src="./chat.js"></script>
 </head>
 <body>
 <div class="box">
     <div class="header">
-        <div class="name">Алан</div>
+        <div class="name"><?= $user->name ?></div>
         <div class="actions">
-            <a href="/configuration">Настройки</a>
-            <a href="/logout">Выйти</a>
+            <?php if ($user->is_admin == 1): ?>
+                <a href="/configuration">Настройки</a>
+            <?php endif; ?>
+            <a href="/api/logout.php">Выйти</a>
         </div>
     </div>
     <div class="chat">
-        <div class="messages-box">
+        <div class="messages-box" id="messages-box">
+            <?php foreach ($messages as $message): ?>
             <div class="message">
-                <div class="name">
-                    Алан
+                <div class="meta">
+                    <div class="name">
+                        <?= $message['name'] ?>
+                    </div>
+                    <div class="time">
+                        <?= strftime("%d.%m.%Y, %H:%M:%S", $message['createdOn'] / 1000) ?>
+                    </div>
                 </div>
                 <div class="body">
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                        It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                    <p><?= $message['body'] ?></p>
                 </div>
-                <div class="attachment">
-
-                </div>
+                <?php if ($message['attachedImage']): ?>
+                    <div class="attachment">
+                        <img src="<?= $message['attachedImage'] ?>">
+                    </div>
+                <?php endif; ?>
             </div>
+            <?php endforeach ?>
         </div>
         <div class="message-form">
-            <form id="message-form-instance">
+            <form id="message-form-instance" action="#">
                 <button type="button" id="form-attach-button">Прикрепить</button>
-                <input type="text" name="body" placeholder="Сообщение">
-                <input type="hidden" name="body">
+                <button type="button" id="form-detach-button" hidden>Открепить</button>
+                <input type="file" id="file-input" style="display: none">
+                <textarea name="body" placeholder="Сообщение"></textarea>
+                <input type="hidden" name="image-url">
                 <button type="submit">Отправить</button>
             </form>
         </div>

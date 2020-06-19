@@ -1,0 +1,33 @@
+body {
+  margin: 0;
+  font-family: "Verdana", sans-serif;
+  font-size: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.box {
+  width: 250px;
+  height: 250px;
+  padding: 24px;
+  border: 1px solid black;
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+}
+
