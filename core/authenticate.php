@@ -1,6 +1,6 @@
 <?php
 
-$token = $_COOKIE['auth_token'];
+$token = $connection->real_escape_string($_COOKIE['auth_token']);
 
 $query = $connection->query("SELECT `user_id`, `id` FROM `authentication`.`sessions`
         WHERE `token` = '$token' AND `is_open` = 1;");
@@ -17,4 +17,10 @@ if (isset($session)) {
     $query = $connection->query("SELECT * FROM `authentication`.`users`
         WHERE `id` = '$user_id';");
     $user = $query->fetch_object();
+
+    $token = bin2hex(random_bytes(16));
+    $connection->query("UPDATE `authentication`.`sessions` 
+        SET `token` = '$token'
+        WHERE `id` = '$session_id';");
+    setcookie("auth_token", $token, 0, '/', ".example.com");
 }

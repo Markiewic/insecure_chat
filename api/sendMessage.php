@@ -8,8 +8,8 @@ if (!$user_id) {
     return;
 }
 
-$body = trim($_POST['body']);
-$image_url = trim($_POST['image_url']);
+$body = trim($connection->real_escape_string(htmlspecialchars($_POST['body'])));
+$image_url = trim($connection->real_escape_string(htmlspecialchars($_POST['image_url'])));
 
 if ($body || $image_url) {
     $connection->query("INSERT INTO contents.messages (sender, body, attached_image) VALUE ('$user_id', '$body', '$image_url');");

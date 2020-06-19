@@ -3,8 +3,8 @@
 include "../core/database.php";
 include "../core/settings.php";
 
-$login = $_POST['login'];
-$password = $_POST['password'];
+$login = trim($connection->real_escape_string(htmlspecialchars($_POST['login'])));
+$password = trim($connection->real_escape_string(htmlspecialchars($_POST['password'])));
 
 $max_attempt_count = 5;
 $attempt_debounce = 3600;

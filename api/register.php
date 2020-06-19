@@ -2,9 +2,9 @@
 
 include "../core/database.php";
 
-$name = trim($_POST['name']);
-$login = trim($_POST['login']);
-$password = trim($_POST['password']);
+$name = trim($connection->real_escape_string(htmlspecialchars($_POST['name'])));
+$login = trim($connection->real_escape_string(htmlspecialchars($_POST['login'])));
+$password = trim($connection->real_escape_string(htmlspecialchars($_POST['password'])));
 
 if (!($name && $login && $password)) {
     http_response_code(400);
