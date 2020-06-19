@@ -1,7 +1,5 @@
 <?php
 
-include "./database.php";
-
 $token = $_COOKIE['auth_token'];
 
 $query = $connection->query("SELECT `user_id`, `id` FROM `authentication`.`sessions`

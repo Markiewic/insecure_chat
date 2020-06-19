@@ -3,6 +3,8 @@
 include '../core/database.php';
 include '../core/authenticate.php';
 
+ignore_user_abort(true);
+
 if (!$user_id) {
     http_response_code(401);
     return;
@@ -32,8 +34,6 @@ while (true) {
         $messages[] = $message;
     }
 
-//    echo "data:         select message.*, user.name name from contents.messages message join authentication.users user on user.id = message.sender where message.created_on > $lastTime\n\n";
-
     if (count($messages) > 0) {
         $messagesPlain = json_encode($messages);
 
@@ -41,7 +41,13 @@ while (true) {
         echo "data: $messagesPlain" . "\n\n";
     }
 
-    ob_end_flush();
-    flush();
-    sleep(0.1);
+    @ob_end_flush();
+    @flush();
+    @ob_flush();
+
+    if (connection_aborted()) {
+        break;
+    }
+
+    sleep(1);
 }

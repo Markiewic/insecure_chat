@@ -1,6 +1,6 @@
 <?php
 
-$alert = $_GET['alert'];
+$alert = $_GET['alert'] ?? '';
 
 ?>
 

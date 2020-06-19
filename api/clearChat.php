@@ -5,7 +5,7 @@ include "../core/authenticate.php";
 include "../core/settings.php";
 include "../core/csrf-token.php";
 
-$csrf_t = $_GET['csrf_t'];
+$csrf_t = $_GET['csrf_t'] ?? '';
 
 if ($csrf_token) {
     if (!checkCSRFToken($csrf_t)) {

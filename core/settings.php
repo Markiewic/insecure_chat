@@ -1,7 +1,5 @@
 <?php
 
-include "./database.php";
-
 $csrf_token = false;
 $auth_limit = false;
 
